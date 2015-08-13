@@ -9,14 +9,6 @@ import pylab
 english_stopwords = stopwords.words('english')
 
 
-#f1 = FreqDist(i.lower() for i in yen_words)
-#print(f1)
-#s1 = sorted(f1.items(), key=lambda x: x[1], reverse=True)
-#print(s1[0:10])
-#print(s1[50], s1[150])
-#t1 = [i[1] for i in s1]
-
-
 def get_frequency_distribution(words):
     fd = FreqDist(i.lower() for i in words)
     print(fd)
