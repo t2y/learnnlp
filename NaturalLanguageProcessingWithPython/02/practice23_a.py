@@ -41,7 +41,6 @@ def main():
     pylab.plot(in_fd2, color='gray')
 
     # reuters
-    # yen_words = reuters.words()
     yen_words = reuters.words(categories='yen')
     yen_words_exclude_stops = exclude_stopwords(yen_words)
     yen_fd1 = get_frequency_distribution(yen_words)
