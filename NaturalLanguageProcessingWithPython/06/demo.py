@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
-import nltk
-from nltk.corpus import brown
 
+"""
+分類の基本的なやり方
+
+1. 入力データから素性を抽出して符号化する
+   - 素性抽出関数
+2. 素性集合ができる
+3. 素性集合を訓練データとテストデータに分ける
+4. 分類器で分類する
+5. 結果を評価する
+"""
 
 def gender_features(word):  # 素性抽出関数
     """
@@ -34,6 +42,11 @@ print(classifier.show_most_informative_features(5))
 from nltk.classify import apply_features
 train_set = apply_features(gender_features, names[500:])
 test_set = apply_features(gender_features, names[:500])
+
+"""
+素性抽出関数を改善する
+訓練データに偏った素性になってしまう -> 過学習
+"""
 
 from collections import OrderedDict
 from string import ascii_lowercase
@@ -70,6 +83,15 @@ classifier = NaiveBayesClassifier.train(train_set)
 print(nltk.classify.accuracy(classifier, test_set))
 
 
+"""
+素性抽出するときのデータも3つに分ける
+ - 訓練データの素性集合
+ - 開発テストデータの素性集合
+ - テストデータの素性集合
+
+それぞれ分けないと、入力データの偏ったモデルができてしまう？
+"""
+
 train_names = names[1500:]
 devtest_names = names[500:1500]
 test_names = names[:500]
@@ -79,6 +101,11 @@ devtest_set = [(gender_features(n), g) for (n, g) in devtest_names]
 test_set = [(gender_features(n), g) for (n, g) in test_names]
 classifier = NaiveBayesClassifier.train(train_set)
 print(nltk.classify.accuracy(classifier, test_set))
+
+"""
+エラーデータをみて素性抽出関数を改善する
+try & error でやるしかない
+"""
 
 errors = []
 for (name, tag) in devtest_names:
@@ -94,46 +121,13 @@ def gender_features3(word):
     """
     return {'suffix1': word[-1:], 'suffix2': word[-2:]}
 
+"""
+改善した素性抽出関数で作った素性集合を使って分類器の結果を評価する
+"""
+
 train_set = [(gender_features3(n), g) for (n, g) in train_names]
 devtest_set = [(gender_features3(n), g) for (n, g) in devtest_names]
 test_set = [(gender_features3(n), g) for (n, g) in test_names]
 classifier = NaiveBayesClassifier.train(train_set)
 print(nltk.classify.accuracy(classifier, test_set))
 
-
-
-#brown_tagged_sents = brown.tagged_sents(categories='news')
-#brown_sents = brown.sents(categories='news')
-#
-#default_tagger = nltk.DefaultTagger('NN')
-#print(default_tagger.tag(brown_sents[2007]))
-#r = default_tagger.evaluate(brown_tagged_sents)
-#print(r)
-#
-#unigram_tagger = nltk.UnigramTagger(brown_tagged_sents, verbose=True)
-#print(unigram_tagger.tag(brown_sents[2007]))
-#r = unigram_tagger.evaluate(brown_tagged_sents)
-#print(r)
-#
-#train_size = int(len(brown_tagged_sents) * 0.9)
-#print(train_size)
-#train_sents = brown_tagged_sents[:train_size]
-#test_sents = brown_tagged_sents[train_size:]
-#
-#unigram_tagger = nltk.UnigramTagger(train_sents, verbose=True)
-#print(unigram_tagger.tag(brown_sents[2007]))
-#r = unigram_tagger.evaluate(test_sents)
-#print(r)
-#
-#t0 = nltk.DefaultTagger('NN')
-#t1 = nltk.UnigramTagger(train_sents, backoff=t0, verbose=True)
-#t2 = nltk.BigramTagger(train_sents, backoff=t1, verbose=True)
-#r = t2.evaluate(test_sents)
-#
-#t22 = nltk.BigramTagger(train_sents, cutoff=2, backoff=t1, verbose=True)
-#r = t22.evaluate(test_sents)
-#print(r)
-#
-#t3 = nltk.TrigramTagger(train_sents, backoff=t2, verbose=True)
-#r = t3.evaluate(test_sents)
-#print(r)
