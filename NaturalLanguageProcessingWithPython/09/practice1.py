@@ -37,6 +37,9 @@ from nltk import load_parser
         PropN[AGR=[NUM=sg, PER3]] -> 'Kim'
         Adj -> 'happy'
 
+    Feature Grammar Parsing
+    http://www.nltk.org/howto/featgram.html
+
 """
 
 
@@ -61,7 +64,7 @@ def main():
         parse_and_print(cp8, tokens)
 
     print('grammer (20)')
-    cp20 = load_parser('grammer20.fcfg')
+    cp20 = load_parser('grammer20.fcfg', trace=1)
     for tokens in test_data:
         parse_and_print(cp20, tokens)
 
