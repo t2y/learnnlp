@@ -1,0 +1,14 @@
+S -> N_SG_1 VP_SG_1
+S -> N_SG_2 VP_SG_2
+S -> N_SG_3 VP_SG_3
+VP_SG_1 -> V_SG_1 ADJ
+VP_SG_2 -> V_SG_2 ADJ
+VP_SG_3 -> V_SG_3 ADJ
+
+N_SG_1 -> 'I'
+N_SG_2 -> 'you'
+N_SG_3 -> 'she'
+V_SG_1 -> 'am'
+V_SG_2 -> 'are'
+V_SG_3 -> 'is'
+ADJ -> 'happy'
